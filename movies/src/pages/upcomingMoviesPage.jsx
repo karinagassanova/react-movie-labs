@@ -4,6 +4,7 @@ import { getUpcomingMovies } from "../api/tmdb-api";
 import PageTemplate from "../components/templateMovieListPage";
 import Spinner from "../components/spinner";
 import AddToFavoritesIcon from "../components/cardIcons/addToFavorites";
+import AddToWatchIcon from "../components/cardIcons/addToWatch";
 
 const UpcomingMoviesPage = () => {
   const { data, error, isLoading, isError } = useQuery({
@@ -25,7 +26,7 @@ const UpcomingMoviesPage = () => {
     <PageTemplate
       title="Upcoming Movies"
       movies={movies}
-      action={(movie) => <AddToFavoritesIcon movie={movie} />}
+      action={(movie) => <AddToWatchIcon movie={movie} />}
     />
   );
 };
