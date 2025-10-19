@@ -20,7 +20,8 @@ const formControl =
 {
   margin: 1,
   minWidth: "90%",
-  backgroundColor: "rgb(255, 255, 255)"
+  backgroundColor: "rgba(255, 255, 255, 0.9)",
+  borderRadius: 1
 };
 
 export default function FilterMoviesCard(props) {
@@ -73,12 +74,13 @@ export default function FilterMoviesCard(props) {
   return (
     <Card
       sx={{
-        backgroundColor: "rgb(204, 204, 0)"
+        background: 'linear-gradient(90deg, #01b4e4 0%, #90cea1 100%)',
+        color: '#fff',
       }}
       variant="outlined">
       <CardContent>
-        <Typography variant="h5" component="h1">
-          <SearchIcon fontSize="large" />
+        <Typography variant="h5" component="h1" sx={{ color: '#001f3f' }}>
+          <SearchIcon fontSize="large" sx={{ color: '#fff', mr: 1 }} />
           Filter the movies.
         </Typography>
         <TextField
@@ -144,17 +146,31 @@ export default function FilterMoviesCard(props) {
           sx={{
             ...formControl,
             mt: 1, 
-            color: 'white', // text color
-            backgroundColor: '#a02adb', // purple background
-            '&:hover': { backgroundColor: '#7f07ba' } // darker purple on hover
+            color: '#001f3f',
+            backgroundColor: '#01b4e4',
+            '&:hover': { backgroundColor: '#0099cc' },
+            fontWeight: 'bold'
           }}
           variant="contained"
           onClick={() => props.onUserInput("releaseDate", "")}
         >Clear Release Date</Button>
 
-<FormControl sx={{ ...formControl }}>
-  <Typography id="vote-slider" gutterBottom>
-    Minimum Rating: {props.voteFilter}
+<FormControl sx={{ ...formControl,p: 1}}>
+  <Typography id="vote-slider" gutterBottom
+  sx={{ 
+      color: '#001f3f', 
+      fontWeight: '900',
+      mb: 1,
+      backgroundColor: '#ffffff',
+      borderRadius: 1,
+      px: 1,
+      py: 0.5,
+      display: 'inline-block',
+      boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+      fontSize: '1.1rem',
+    }}
+  >
+   ⭐ Minimum Rating: {props.voteFilter}
   </Typography>
   
   <Slider  
@@ -171,18 +187,22 @@ export default function FilterMoviesCard(props) {
       color: '#a02adb', 
       '& .MuiSlider-thumb': {
         backgroundColor: '#fff',
-        border: '2px solid #a02adb',
+        border: '2px solid #001f3f',
       },
       '& .MuiSlider-valueLabel': {
-        backgroundColor: '#a02adb',
+        backgroundColor: '#001f3f',
         color: '#fff',
         fontWeight: 'bold',
       },
+      '& .MuiSlider-rail': {
+        opacity: 0.3,
+        backgroundColor: '#001f3f',
+      },
       '& .MuiSlider-track': {
-        border: 'none',
+        background: 'linear-gradient(90deg, #01b4e4 0%, #90cea1 100%)',
       },
       '& .MuiSlider-mark': {
-        backgroundColor: '#a02adb',
+        backgroundColor: '#001f3f',
       },
     }}
   />
