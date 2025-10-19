@@ -143,7 +143,7 @@ export default function FilterMoviesCard(props) {
         <Button
           sx={{
             ...formControl,
-            mt: 1, // margin top to sit nicely under the release date field
+            mt: 1, 
             color: 'white', // text color
             backgroundColor: '#a02adb', // purple background
             '&:hover': { backgroundColor: '#7f07ba' } // darker purple on hover
@@ -156,8 +156,10 @@ export default function FilterMoviesCard(props) {
   <Typography id="vote-slider" gutterBottom>
     Minimum Rating: {props.voteFilter}
   </Typography>
-  <Slider
+  
+  <Slider  
   // https://mui.com/material-ui/react-slider/
+  // https://mui.com/material-ui/customization/how-to-customize/
     value={props.voteFilter || 0}
     onChange={(e, newValue) => props.onUserInput("vote", newValue)}
     valueLabelDisplay="auto"
@@ -165,6 +167,24 @@ export default function FilterMoviesCard(props) {
     marks
     min={0}
     max={10}
+    sx={{
+      color: '#a02adb', 
+      '& .MuiSlider-thumb': {
+        backgroundColor: '#fff',
+        border: '2px solid #a02adb',
+      },
+      '& .MuiSlider-valueLabel': {
+        backgroundColor: '#a02adb',
+        color: '#fff',
+        fontWeight: 'bold',
+      },
+      '& .MuiSlider-track': {
+        border: 'none',
+      },
+      '& .MuiSlider-mark': {
+        backgroundColor: '#a02adb',
+      },
+    }}
   />
 </FormControl>
       </CardContent>
