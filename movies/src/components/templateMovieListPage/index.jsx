@@ -10,6 +10,7 @@ function MovieListPageTemplate({ movies, title, action }) {
   const [genreFilter, setGenreFilter] = useState("0");
   const genreId = Number(genreFilter);
   const [languageFilter, setLanguageFilter] = useState("");
+  const [releaseDateFilter, setReleaseDateFilter] = useState("");
 
   let displayedMovies = movies
   .filter((m) => {
@@ -20,12 +21,14 @@ function MovieListPageTemplate({ movies, title, action }) {
   })
   .filter((m) => {
     return languageFilter ? m.original_language === languageFilter : true;
-  });
+  })
+  .filter((m) => (releaseDateFilter ? m.release_date === releaseDateFilter : true));
 
   const handleChange = (type, value) => {
     if (type === "name") setNameFilter(value);
     else if (type === "genre") setGenreFilter(value);
     else if (type === "language") setLanguageFilter(value);
+    else if (type === "releaseDate") setReleaseDateFilter(value);
   };  
 
   return (
@@ -44,6 +47,7 @@ function MovieListPageTemplate({ movies, title, action }) {
             titleFilter={nameFilter}
             genreFilter={genreFilter}
             languageFilter={languageFilter}
+            releaseDateFilter={releaseDateFilter}
           />
         </Grid>
         <MovieList action={action} movies={displayedMovies}></MovieList>
