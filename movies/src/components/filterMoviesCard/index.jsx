@@ -14,7 +14,7 @@ import { getGenres, getLanguages } from "../../api/tmdb-api";
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../spinner';
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import Slider from "@mui/material/Slider";
 
 const formControl =
 {
@@ -151,6 +151,22 @@ export default function FilterMoviesCard(props) {
           variant="contained"
           onClick={() => props.onUserInput("releaseDate", "")}
         >Clear Release Date</Button>
+
+<FormControl sx={{ ...formControl }}>
+  <Typography id="vote-slider" gutterBottom>
+    Minimum Rating: {props.voteFilter}
+  </Typography>
+  <Slider
+  // https://mui.com/material-ui/react-slider/
+    value={props.voteFilter || 0}
+    onChange={(e, newValue) => props.onUserInput("vote", newValue)}
+    valueLabelDisplay="auto"
+    step={0.5}
+    marks
+    min={0}
+    max={10}
+  />
+</FormControl>
       </CardContent>
       <CardMedia
         sx={{ height: 300 }}
