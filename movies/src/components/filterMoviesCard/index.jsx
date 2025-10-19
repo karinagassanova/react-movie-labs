@@ -13,6 +13,8 @@ import React, {useState, useEffect}  from "react";
 import { getGenres, getLanguages } from "../../api/tmdb-api";
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../spinner';
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 const formControl = 
   {
@@ -46,6 +48,8 @@ export default function FilterMoviesCard(props) {
   if (languages.length === 0 || languages[0].english_name !== "All") {
   languages.unshift({ iso_639_1: "", english_name: "All" });
 }
+
+
 
   const handleChange = (e, type, value) => {
     e.preventDefault();
@@ -132,11 +136,26 @@ export default function FilterMoviesCard(props) {
   type="date"
   variant="filled"
   value={props.releaseDateFilter}
-  onChange={handleReleaseDateChange}
+  onChange={(e) => props.onUserInput("releaseDate", e.target.value)}
   InputLabelProps={{
     shrink: true,
   }}
 />
+
+<Button
+  sx={{ 
+    ...formControl, 
+    mt: 1, // margin top to sit nicely under the release date field
+    color: 'white', // text color
+    backgroundColor: '#a02adb', // purple background
+    '&:hover': { backgroundColor: '#7f07ba' } // darker purple on hover
+  }}
+  variant="contained"
+  onClick={() => props.onUserInput("releaseDate", "")}
+>
+  Clear Release Date
+</Button>
+
 
       </CardContent>
       <CardMedia
