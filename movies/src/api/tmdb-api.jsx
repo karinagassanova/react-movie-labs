@@ -100,6 +100,17 @@ export const getMovie = (args) => {
     }
     return await response.json();
   };
+
+  export const getLanguages = async () => {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/configuration/languages?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    );
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.status_message || "Failed to fetch languages");
+    }
+    return await response.json();
+  };
   
 
   

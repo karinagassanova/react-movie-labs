@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import img from '../../images/pexels-dziana-hasanbekava-5480827.jpg'
 import React, {useState, useEffect}  from "react";
-import { getGenres } from "../../api/tmdb-api";
+import { getGenres, getLanguages } from "../../api/tmdb-api";
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../spinner';
 
@@ -23,22 +23,29 @@ const formControl =
 
 export default function FilterMoviesCard(props) {
 
-  const { data, error, isPending, isError } = useQuery({
+  const { data: genresData, error: genresError, isLoading: genresLoading } = useQuery({
     queryKey: ['genres'],
     queryFn: getGenres,
   });
-
-  if (isPending) {
-    return <Spinner />;
-  }
-
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
-  const genres = data.genres;
-  if (genres[0].name !== "All"){
+  
+  const { data: languagesData, error: langError, isLoading: langLoading } = useQuery({
+    queryKey: ['languages'],
+    queryFn: getLanguages,
+  });
+  
+  if (genresLoading || langLoading) return <Spinner />;
+  if (genresError) return <h1>{genresError.message}</h1>;
+  if (langError) return <h1>{langError.message}</h1>;
+  
+  const genres = genresData.genres;
+  if (genres[0].name !== "All") {
     genres.unshift({ id: "0", name: "All" });
   }
+
+  const languages = languagesData || [];
+  if (languages.length === 0 || languages[0].english_name !== "All") {
+  languages.unshift({ iso_639_1: "", english_name: "All" });
+}
 
   const handleChange = (e, type, value) => {
     e.preventDefault();
@@ -47,10 +54,14 @@ export default function FilterMoviesCard(props) {
 
   const handleTextChange = (e, props) => {
     handleChange(e, "name", e.target.value);
-  };
+  }; 
 
   const handleGenreChange = (e) => {
     handleChange(e, "genre", e.target.value);
+  };
+
+  const handleLanguageChange = (e) => {
+    handleChange(e, "language", e.target.value);
   };
 
     
@@ -94,6 +105,22 @@ export default function FilterMoviesCard(props) {
             })}
           </Select>
         </FormControl>
+
+        <FormControl sx={{ ...formControl }}>
+  <InputLabel id="language-label">Language</InputLabel>
+  <Select
+    labelId="language-label"
+    id="language-select"
+    value={props.languageFilter || ""}
+    onChange={handleLanguageChange}
+  >
+    {languages.map((lang) => (
+      <MenuItem key={lang.iso_639_1} value={lang.iso_639_1}>
+        {lang.english_name}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
       </CardContent>
       <CardMedia
         sx={{ height: 300 }}
