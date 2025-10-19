@@ -208,11 +208,6 @@ export default function FilterMoviesCard(props) {
   />
 </FormControl>
       </CardContent>
-      <CardMedia
-        sx={{ height: 300 }}
-        image={img}
-        title="Filter"
-      />
     </Card>
   );
 }
