@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import tmdbLogo from '../../images/tmdb-logo.png';
+import tmdbLogo from '../../images/tmdb.png';
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 const SiteHeader = () => {
@@ -44,14 +44,14 @@ const SiteHeader = () => {
       <AppBar
         position="fixed"
         sx={{
-          background: 'linear-gradient(90deg, #01b4e4 0%, #90cea1 100%)',
+          background: '#032541',
           boxShadow: '0px 2px 8px rgba(0,0,0,0.2)',
         }}>
         <Toolbar>
           <img
             src={tmdbLogo}
             alt="TMDB Logo"
-            style={{ height: 60, width: 100, cursor: 'pointer' }}
+            style={{ height: 45, width: 180, cursor: 'pointer' }}
             onClick={() => navigate("/")} />
 
           {isMobile ? (
@@ -95,7 +95,10 @@ const SiteHeader = () => {
                   key={opt.label}
                   color="inherit"
                   sx={{
-                    fontWeight: 'bold',
+                    fontWeight: '400',
+                    fontSize: '1rem', 
+                    letterSpacing: '0.5px', 
+                    textTransform: 'none', 
                     '&:hover': {
                       backgroundColor: 'rgba(255,255,255,0.2)',
                       borderRadius: 1
