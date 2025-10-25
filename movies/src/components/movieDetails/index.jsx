@@ -12,6 +12,7 @@ import MovieReviews from "../movieReviews";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { getMovieRecommendations } from "../../api/tmdb-api";
+import { getMovieCredits } from "../../api/tmdb-api";
 
 const root = {
   display: "flex",
@@ -31,6 +32,13 @@ const MovieDetails = ({ movie }) => {
     queryKey: ["movieRecommendations", movie.id],
     queryFn: () => getMovieRecommendations(movie.id),
   });  
+
+  const { data: credits, isLoading: isCreditsLoading, error: creditsError } = useQuery({
+    queryKey: ["movieCredits", movie.id],
+    queryFn: () => getMovieCredits(movie.id),
+  });
+  
+  
 
   return (
     <>
@@ -82,6 +90,33 @@ const MovieDetails = ({ movie }) => {
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
+
+      {!isCreditsLoading && credits?.cast?.length > 0 && (
+  <>
+    <Typography variant="h5" component="h3" sx={{ mt: 3, color: "#032541" }}>
+      Cast
+    </Typography>
+    <Paper component="ul" sx={{ ...root, mt: 1 }}>
+      {credits.cast.slice(0, 10).map((actor) => (
+        <li key={actor.id}>
+          <Link to={`/actors/${actor.id}`} style={{ textDecoration: "none" }}>
+            <Chip
+              label={actor.name}
+              clickable
+              sx={{
+                backgroundColor: "#032541",
+                color: "#fff",
+                fontWeight: "bold",
+                "&:hover": { backgroundColor: "#054161" },
+                ...chip
+              }}
+            />
+          </Link>
+        </li>
+      ))}
+    </Paper>
+  </>
+)}
 
       {!isRecLoading && recommendations?.results?.length > 0 && (
   <>

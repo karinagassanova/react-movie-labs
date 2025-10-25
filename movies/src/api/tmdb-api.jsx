@@ -162,4 +162,14 @@ export const getMovie = (args) => {
   return await response.json();
 };
 
-  
+// https://developer.themoviedb.org/reference/movie-credits
+export const getMovieCredits = async (movieId) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  );
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.status_message || "Failed to fetch movie cast");
+  }
+  return response.json();
+};
