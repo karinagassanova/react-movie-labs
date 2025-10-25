@@ -9,6 +9,9 @@ import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { getMovieRecommendations } from "../../api/tmdb-api";
 
 const root = {
   display: "flex",
@@ -23,6 +26,11 @@ const chip = { margin: 0.5 };
 
 const MovieDetails = ({ movie }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { data: recommendations, isLoading: isRecLoading } = useQuery({
+    queryKey: ["movieRecommendations", movie.id],
+    queryFn: () => getMovieRecommendations(movie.id),
+  });  
 
   return (
     <>
@@ -75,6 +83,46 @@ const MovieDetails = ({ movie }) => {
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
 
+      {!isRecLoading && recommendations?.results?.length > 0 && (
+  <>
+    <Typography variant="h5" component="h3" sx={{ mt: 3, color: "#032541" }}>
+      Recommended Movies
+    </Typography>
+
+    <Paper
+      component="ul"
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        listStyle: "none",
+        padding: 1.5,
+        margin: 0,
+        gap: 1,
+        backgroundColor: "#fff",
+        borderRadius: 2,
+      }}
+    >
+      {recommendations.results.map((rec) => (
+        <li key={rec.id} style={{ margin: 0.5 }}>
+          <Link to={`/movies/${rec.id}`} style={{ textDecoration: "none" }}>
+            <Chip
+              label={rec.title}
+              clickable
+              sx={{
+                backgroundColor: "#032541", 
+                color: "#fff",              
+                fontWeight: "bold",
+                "&:hover": {
+                  backgroundColor: "#054161", 
+                },
+              }}
+            />
+          </Link>
+        </li>
+      ))}
+    </Paper>
+  </>
+)}
 
       <Fab
         color="secondary"
@@ -98,7 +146,10 @@ const MovieDetails = ({ movie }) => {
         <MovieReviews movie={movie} />
       </Drawer>
     </>
+
+    
   );
 };
+
 
 export default MovieDetails;
