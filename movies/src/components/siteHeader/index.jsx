@@ -13,14 +13,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import tmdbLogo from '../../images/tmdb-logo.png';
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
-
 const SiteHeader = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  
   const navigate = useNavigate();
 
   const menuOptions = [
@@ -28,6 +25,8 @@ const SiteHeader = () => {
     { label: "Favorites", path: "/movies/favorites" },
     { label: "Upcoming", path: "/movies/upcoming" },
     { label: "Must Watch", path: "/movies/mustwatch" },
+    { label: "Popular", path: "/movies/popular" },
+
   ];
 
   const handleMenuSelect = (pageURL) => {
@@ -41,78 +40,74 @@ const SiteHeader = () => {
 
   return (
     <>
-     <AppBar
-  position="fixed"
-  sx={{
-    background: 'linear-gradient(90deg, #01b4e4 0%, #90cea1 100%)',
-    boxShadow: '0px 2px 8px rgba(0,0,0,0.2)',
-  }}
->
-      <Toolbar>
-      <img
-  src={tmdbLogo}
-  alt="TMDB Logo"
-  style={{ height: 60,width:100, cursor: 'pointer' }}
-  onClick={() => navigate("/")}
-/>
+      <AppBar
+        position="fixed"
+        sx={{
+          background: 'linear-gradient(90deg, #01b4e4 0%, #90cea1 100%)',
+          boxShadow: '0px 2px 8px rgba(0,0,0,0.2)',
+        }}>
+        <Toolbar>
+          <img
+            src={tmdbLogo}
+            alt="TMDB Logo"
+            style={{ height: 60, width: 100, cursor: 'pointer' }}
+            onClick={() => navigate("/")} />
 
-            {isMobile ? (
-              <>
-                <IconButton
-                  aria-label="menu"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={open}
-                  onClose={() => setAnchorEl(null)}
-                >
-                  {menuOptions.map((opt) => (
-                    <MenuItem
-                      key={opt.label}
-                      onClick={() => handleMenuSelect(opt.path)}
-                    >
-                      {opt.label}
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </>
-            ) : (
-              <>
+          {isMobile ? (
+            <>
+              <IconButton
+                aria-label="menu"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit">
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={open}
+                onClose={() => setAnchorEl(null)}>
                 {menuOptions.map((opt) => (
-                  <Button
+
+                  <MenuItem
                     key={opt.label}
-                    color="inherit"
-                    sx={{
-                      fontWeight: 'bold',
-                      '&:hover': {
-                        backgroundColor: 'rgba(255,255,255,0.2)',
-                        borderRadius: 1
-                      },
-                      mx: 1
-                    }}
-                    onClick={() => handleMenuSelect(opt.path)}
-                  >
+                    onClick={() => handleMenuSelect(opt.path)}>
                     {opt.label}
-                  </Button>
+                  </MenuItem>
                 ))}
-              </>
-            )}
+              </Menu>
+            </>
+          ) : (
+            <>
+              {menuOptions.map((opt) => (
+                <Button
+                  key={opt.label}
+                  color="inherit"
+                  sx={{
+                    fontWeight: 'bold',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255,255,255,0.2)',
+                      borderRadius: 1
+                    },
+                    mx: 1
+                  }}
+                  onClick={() => handleMenuSelect(opt.path)}
+                >
+                  {opt.label}
+                </Button>
+              ))}
+            </>
+          )}
         </Toolbar>
       </AppBar>
       <Offset />

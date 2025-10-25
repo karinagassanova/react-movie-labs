@@ -32,7 +32,7 @@ export default function MovieCard({ movie, action }) {
   };
 
   return (
-    <Card>
+    <Card sx={{ height: 700, display: "flex", flexDirection: "column" }}>
            <CardHeader
         avatar={
           movie.favorite ? (
@@ -42,9 +42,9 @@ export default function MovieCard({ movie, action }) {
           ) : null
         }
         title={
-          <Typography variant="h5" component="p">
-            {movie.title}{" "}
-          </Typography>
+          <Typography variant="h5" component="p" noWrap sx={{ fontSize: "1.1rem", fontWeight: 600 }}>
+          {movie.title}
+        </Typography>
         }
       />
       <CardMedia
