@@ -138,9 +138,9 @@ export const getMovie = (args) => {
   };
   
   // https://developer.themoviedb.org/reference/movie-now-playing-list
-  export const getNowPlayingMovies = async () => {
+  export const getNowPlayingMovies = async (page = 1) => {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
     );
     if (!response.ok) {
       const error = await response.json();
