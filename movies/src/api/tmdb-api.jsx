@@ -1,6 +1,6 @@
-export const getMovies = () => {
+export const getMovies = (page = 1) => {
   return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
   ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
@@ -174,7 +174,7 @@ export const getMovieCredits = async (movieId) => {
   return response.json();
 };
 
-// https://developer.themoviedb.org/reference/trending-people
+// 
 export const getActorDetails = async (actorId) => {
   const response = await fetch(
     `https://api.themoviedb.org/3/person/${actorId}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`

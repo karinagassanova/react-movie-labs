@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { getMovies } from "../api/tmdb-api";
 import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 const HomePage = (props) => {
-
-  const { data, error, isPending, isError  } = useQuery({
-    queryKey: ['discover'],
-    queryFn: getMovies,
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading, isError  } = useQuery({
+    queryKey: ['discover',page],
+    queryFn: () => getMovies(page),
   })
   
-  if (isPending) {
+  if (isLoading) {
     return <Spinner />
   }
 
@@ -28,6 +30,7 @@ const HomePage = (props) => {
   const addToFavorites = (movieId) => true 
 
   return (
+    <>
     <PageTemplate
       title="Discover Movies"
       movies={movies}
@@ -35,8 +38,31 @@ const HomePage = (props) => {
         return <AddToFavoritesIcon movie={movie} />
       }}
     />
+    <Stack spacing={2} sx={{ alignItems: 'center', mt: 2 }}>
+  <Pagination
+  // https://mui.com/material-ui/react-pagination/
+    count={data?.total_pages > 500 ? 500 : data?.total_pages} // TMDb limits pages to 500
+    page={page}
+    onChange={(event, value) => setPage(value)}
+    sx={{
+      "& .MuiPaginationItem-root": {
+        color: "#032541",
+        borderColor: "#032541",
+      },
+      "& .MuiPaginationItem-root:hover": {
+        backgroundColor: "#032541",
+        color: "#fff",
+      },
+      "& .MuiPaginationItem-root.Mui-selected": {
+        backgroundColor: "#032541",
+        color: "#fff",
+      },
+    }}
+  />
+</Stack>
+</>
   );
   }; 
-  
+
   export default HomePage;
   
