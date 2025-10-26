@@ -126,9 +126,9 @@ export const getMovie = (args) => {
   };
   
   // https://developer.themoviedb.org/reference/movie-top-rated-list
-  export const getTopRatedMovies = async () => {
+  export const getTopRatedMovies = async (page = 1) => {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
     );
     if (!response.ok) {
       const error = await response.json();
