@@ -146,10 +146,10 @@ export default function FilterMoviesCard(props) {
           sx={{
             ...formControl,
             mt: 1, 
-            color: '#001f3f',
-            backgroundColor: '#01b4e4',
+            color: 'fff',
+            backgroundColor: '#032541',
             '&:hover': { backgroundColor: '#0099cc' },
-            fontWeight: 'bold'
+            fontWeight: '400'
           }}
           variant="contained"
           onClick={() => props.onUserInput("releaseDate", "")}
