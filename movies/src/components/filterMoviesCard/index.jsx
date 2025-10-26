@@ -148,7 +148,7 @@ export default function FilterMoviesCard(props) {
             mt: 1, 
             color: 'fff',
             backgroundColor: '#032541',
-            '&:hover': { backgroundColor: '#0099cc' },
+            '&:hover': { backgroundColor: '#055075' },
             fontWeight: '400'
           }}
           variant="contained"

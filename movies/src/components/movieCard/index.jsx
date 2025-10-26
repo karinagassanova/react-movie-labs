@@ -36,8 +36,12 @@ export default function MovieCard({ movie, action }) {
            <CardHeader
         avatar={
           movie.favorite ? (
-            <Avatar sx={{ backgroundColor: 'red' }}>
-              <FavoriteIcon />
+            <Avatar
+            sx={{
+              background: 'linear-gradient(45deg, #01b4e4 0%, #90cea1 100%)',
+            }}
+          >
+            <FavoriteIcon sx={{ color: '#fff' }} />
             </Avatar>
           ) : null
         }
@@ -76,7 +80,16 @@ export default function MovieCard({ movie, action }) {
       {action(movie)}
     
       <Link to={`/movies/${movie.id}`}>
-        <Button variant="outlined" size="medium" color="primary">
+      <Button variant="outlined" size="medium"
+      sx={{
+        color: '#032541',
+        borderColor: '#032541',
+        '&:hover': {
+          backgroundColor: '#032541',
+          color: '#fff',
+        },
+      }}
+    >
           More Info ...
         </Button>
       </Link>
