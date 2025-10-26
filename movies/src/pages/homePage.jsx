@@ -41,7 +41,8 @@ const HomePage = (props) => {
     <Stack spacing={2} sx={{ alignItems: 'center', mt: 2 }}>
   <Pagination
   // https://mui.com/material-ui/react-pagination/
-    count={data?.total_pages > 500 ? 500 : data?.total_pages} // TMDb limits pages to 500
+  // https://www.themoviedb.org/talk/655749887f054018d6f30816
+    count={data?.total_pages > 500 ? 500 : data?.total_pages} // TMDB limits pages to 500
     page={page}
     onChange={(event, value) => setPage(value)}
     sx={{

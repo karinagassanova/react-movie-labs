@@ -91,9 +91,9 @@ export const getMovie = (args) => {
    });
   };
 
-  export const getUpcomingMovies = async () => {
+  export const getUpcomingMovies = async (page = 1) => {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
     );
     if (!response.ok) {
       throw new Error(response.statusText);
