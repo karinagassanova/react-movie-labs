@@ -52,7 +52,14 @@ const MovieDetails = ({ movie }) => {
 
       <Paper component="ul" sx={{ ...root }}>
         <li>
-          <Chip label="Genres" sx={{ ...chip }} color="primary" />
+          <Chip label="Genres"  sx={{
+                backgroundColor: "#032541",
+                color: "#fff",
+                fontWeight: "bold",
+                "&:hover": { backgroundColor: "#054161" },
+                ...chip
+              }}
+              />
         </li>
         {movie.genres.map((g) => (
           <li key={g.name}>
@@ -66,8 +73,13 @@ const MovieDetails = ({ movie }) => {
           <li>
             <Chip
               label="Production Countries"
-              sx={{ ...chip }}
-              color="primary"
+              sx={{
+                backgroundColor: "#032541",
+                color: "#fff",
+                fontWeight: "bold",
+                "&:hover": { backgroundColor: "#054161" },
+                ...chip
+              }}
             />
           </li>
           {movie.production_countries.map((country) => (
@@ -90,6 +102,7 @@ const MovieDetails = ({ movie }) => {
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
+
 
       {!isCreditsLoading && credits?.cast?.length > 0 && (
   <>
@@ -167,6 +180,12 @@ const MovieDetails = ({ movie }) => {
           position: "fixed",
           bottom: "1em",
           right: "1em",
+          backgroundColor: "#032541", 
+                color: "#fff",     
+                "&:hover": {
+                  backgroundColor: "#054161", 
+                },         
+          
         }}
       >
         <NavigationIcon sx={{ mr: 1 }} />
