@@ -180,12 +180,12 @@ const MovieDetails = ({ movie }) => {
           position: "fixed",
           bottom: "1em",
           right: "1em",
-          backgroundColor: "#032541", 
+          backgroundColor: "#00bfff", 
                 color: "#fff",     
                 "&:hover": {
-                  backgroundColor: "#054161", 
+                  backgroundColor: "grey", 
                 },         
-          
+      
         }}
       >
         <NavigationIcon sx={{ mr: 1 }} />
