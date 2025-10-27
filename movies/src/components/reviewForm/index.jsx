@@ -199,12 +199,19 @@ const ReviewForm = ({ movie }) => {
           )}
         />
 
-        <Box sx={styles.buttons}>
+        <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
           <Button
             type="submit"
             variant="contained"
             color="primary"
-            sx={styles.submit}
+            sx={{
+              backgroundColor: "#032541", // dark navy
+              color: "#fff",
+              "&:hover": {
+                backgroundColor: "#032541", // keep navy background
+                color: "#00bfff",           // light blue hover
+              },
+            }}
           >
             Submit
           </Button>
@@ -212,7 +219,14 @@ const ReviewForm = ({ movie }) => {
             type="reset"
             variant="contained"
             color="secondary"
-            sx={styles.submit}
+            sx={{
+              backgroundColor: "#032541",
+              color: "#fff",
+              "&:hover": {
+                backgroundColor: "#032541",
+                color: "#00bfff",
+              },
+            }}
             onClick={() => {
               reset({
                 author: "",
