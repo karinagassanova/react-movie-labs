@@ -11,20 +11,67 @@ import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import tmdbLogo from '../../images/tmdb.png';
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
+
 const SiteHeader = () => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
 
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setDrawerOpen(open);
+  };
+
+  const drawerList = (
+    <List sx={{ width: 250 }}>
+      <ListItem
+        button
+        onClick={() => { navigate("/movies/favorites"); setDrawerOpen(false); }}
+        sx={{
+          "&:hover": {
+            backgroundColor: "#032541", 
+            color: "#00bfff", 
+            cursor: "pointer",           
+          },
+        }}
+      >
+        <ListItemText primary="Favorites" />
+      </ListItem>
+  
+      <ListItem
+        button
+        onClick={() => { navigate("/movies/mustwatch"); setDrawerOpen(false); }}
+        sx={{
+          "&:hover": {
+            backgroundColor: "#032541",
+            color: "#00bfff",
+            cursor: "pointer",  
+          },
+        }}
+      >
+        <ListItemText primary="Must Watch" />
+      </ListItem>
+    </List>
+  );
+  
   const menuOptions = [
     { label: "Home", path: "/" },
-    { label: "Favorites", path: "/movies/favorites" },
     { label: "Upcoming", path: "/movies/upcoming" },
-    { label: "Must Watch", path: "/movies/mustwatch" },
     { label: "Popular", path: "/movies/popular" },
     { label: "Top Rated", path: "/movies/top-rated" },
     { label: "Now Playing", path: "/movies/now-playing" },
@@ -47,15 +94,16 @@ const SiteHeader = () => {
           background: '#032541',
           boxShadow: '0px 2px 8px rgba(0,0,0,0.2)',
         }}>
-        <Toolbar>
+      <Toolbar sx={{ display: "flex", justifyContent: "flex-start" }}>
           <img
             src={tmdbLogo}
             alt="TMDB Logo"
             style={{ height: 45, width: 180, cursor: 'pointer' }}
             onClick={() => navigate("/")} />
-
+            
           {isMobile ? (
             <>
+
               <IconButton
                 aria-label="menu"
                 aria-controls="menu-appbar"
@@ -64,6 +112,8 @@ const SiteHeader = () => {
                 color="inherit">
                 <MenuIcon />
               </IconButton>
+
+              
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -78,6 +128,7 @@ const SiteHeader = () => {
                 }}
                 open={open}
                 onClose={() => setAnchorEl(null)}>
+                  
                 {menuOptions.map((opt) => (
 
                   <MenuItem
@@ -90,6 +141,8 @@ const SiteHeader = () => {
             </>
           ) : (
             <>
+          
+  <div style={{ display: "flex", gap: "10px" }}>
               {menuOptions.map((opt) => (
                 <Button
                   key={opt.label}
@@ -110,9 +163,38 @@ const SiteHeader = () => {
                   {opt.label}
                 </Button>
               ))}
+              </div>
             </>
           )}
-        </Toolbar>
+
+        <div style={{ flexGrow: 1 }} />
+        <IconButton aria-label="open drawer" onClick={toggleDrawer(true)} 
+    sx={{
+    color: "white",
+    ml: 2,
+    "&:hover": {
+      backgroundColor: "#032541", 
+      color: "#00bfff", 
+    },
+  }}
+>
+  <FavoriteIcon />
+</IconButton>
+</Toolbar>
+        <Drawer
+  anchor="right"
+  open={drawerOpen}
+  onClose={toggleDrawer(false)}
+  PaperProps={{
+    sx: {
+      backgroundColor: "#032541",
+      color: "white",
+    },
+  }}
+>
+  {drawerList}
+</Drawer>
+
       </AppBar>
       <Offset />
     </>
