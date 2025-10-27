@@ -29,7 +29,15 @@ const MovieHeader = (props) => {
       <Typography variant="h4" component="h3">
         {movie.title}
         <a href={movie.homepage}>
-          <HomeIcon color="primary" />
+          <HomeIcon  fontSize="large"
+      sx={{
+        color: "#032541", 
+        "&:hover": {
+          color: "#00bfff",
+          backgroundColor: "transparent",
+        },
+      }}
+    />
         </a>
         <br />
         <span sx={{ fontSize: "1.5rem" }}>{`   "${movie.tagline}"`} </span>

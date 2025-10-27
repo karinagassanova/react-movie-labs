@@ -205,11 +205,11 @@ const ReviewForm = ({ movie }) => {
             variant="contained"
             color="primary"
             sx={{
-              backgroundColor: "#032541", // dark navy
+              backgroundColor: "#032541", 
               color: "#fff",
               "&:hover": {
-                backgroundColor: "#032541", // keep navy background
-                color: "#00bfff",           // light blue hover
+                backgroundColor: "#032541", 
+                color: "#00bfff",          
               },
             }}
           >
