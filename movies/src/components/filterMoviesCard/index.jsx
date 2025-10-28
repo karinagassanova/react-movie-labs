@@ -16,6 +16,7 @@ import Spinner from '../spinner';
 import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
 
+// Shared FormControl styling for reusable layout
 const formControl =
 {
   margin: 1,
@@ -26,35 +27,43 @@ const formControl =
 
 export default function FilterMoviesCard(props) {
 
+  // Fetch genre list from TMDB using React Query
   const { data: genresData, error: genresError, isLoading: genresLoading } = useQuery({
     queryKey: ['genres'],
     queryFn: getGenres,
   });
 
+  // Fetch spoken languages from TMDB using React Query
   const { data: languagesData, error: langError, isLoading: langLoading } = useQuery({
     queryKey: ['languages'],
     queryFn: getLanguages,
   });
 
+  // Handle loading & error states
   if (genresLoading || langLoading) return <Spinner />;
   if (genresError) return <h1>{genresError.message}</h1>;
   if (langError) return <h1>{langError.message}</h1>;
 
+  // Ensure "All" option exists in genre dropdown
   const genres = genresData.genres;
   if (genres[0].name !== "All") {
     genres.unshift({ id: "0", name: "All" });
   }
 
+  // Ensure a default "All" option exists for languages
   const languages = languagesData || [];
   if (languages.length === 0 || languages[0].english_name !== "All") {
     languages.unshift({ iso_639_1: "", english_name: "All" });
   }
 
+  // Ensure a default "All" option exists for languages
   const handleChange = (e, type, value) => {
     e.preventDefault();
+    // Pass updated filter to parent component
     props.onUserInput(type, value);
   };
 
+  // Specific handlers for each filter input
   const handleTextChange = (e, props) => {
     handleChange(e, "name", e.target.value);
   };
@@ -72,6 +81,7 @@ export default function FilterMoviesCard(props) {
   };
 
   return (
+    // Main filter container card with gradient styling
     <Card
       sx={{
         background: 'linear-gradient(90deg, #01b4e4 0%, #90cea1 100%)',
@@ -79,10 +89,12 @@ export default function FilterMoviesCard(props) {
       }}
       variant="outlined">
       <CardContent>
+        {/* Title + Search Icon */}
         <Typography variant="h5" component="h1" sx={{ color: '#001f3f' }}>
           <SearchIcon fontSize="large" sx={{ color: '#fff', mr: 1 }} />
           Filter the movies.
         </Typography>
+        {/* Movie Title Search */}
         <TextField
           sx={{ ...formControl }}
           id="filled-search"
@@ -93,6 +105,7 @@ export default function FilterMoviesCard(props) {
           onChange={handleTextChange}
         />
 
+        {/* Genre Dropdown */}
         <FormControl sx={{ ...formControl }}>
           <InputLabel id="genre-label">Genre</InputLabel>
           <Select
@@ -113,6 +126,7 @@ export default function FilterMoviesCard(props) {
           </Select>
         </FormControl>
 
+        {/* Language Dropdown */}
         <FormControl sx={{ ...formControl }}>
           <InputLabel id="language-label">Language</InputLabel>
           <Select
@@ -129,6 +143,7 @@ export default function FilterMoviesCard(props) {
           </Select>
         </FormControl>
 
+        {/* Release Date Picker */}
         <TextField
           sx={{ ...formControl }}
           id="release-date"
@@ -141,11 +156,11 @@ export default function FilterMoviesCard(props) {
             shrink: true,
           }}
         />
-
+        {/* Reset Release Date Button */}
         <Button
           sx={{
             ...formControl,
-            mt: 1, 
+            mt: 1,
             color: 'fff',
             backgroundColor: '#032541',
             '&:hover': { backgroundColor: '#055075' },
@@ -155,58 +170,61 @@ export default function FilterMoviesCard(props) {
           onClick={() => props.onUserInput("releaseDate", "")}
         >Clear Release Date</Button>
 
-<FormControl sx={{ ...formControl,p: 1}}>
-  <Typography id="vote-slider" gutterBottom
-  sx={{ 
-      color: '#001f3f', 
-      fontWeight: '900',
-      mb: 1,
-      backgroundColor: '#ffffff',
-      borderRadius: 1,
-      px: 1,
-      py: 0.5,
-      display: 'inline-block',
-      boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
-      fontSize: '1.1rem',
-    }}
-  >
-   ⭐ Minimum Rating: {props.voteFilter}
-  </Typography>
-  
-  <Slider  
-  // https://mui.com/material-ui/react-slider/
-  // https://mui.com/material-ui/customization/how-to-customize/
-    value={props.voteFilter || 0}
-    onChange={(e, newValue) => props.onUserInput("vote", newValue)}
-    valueLabelDisplay="auto"
-    step={0.5}
-    marks
-    min={0}
-    max={10}
-    sx={{
-      color: '#a02adb', 
-      '& .MuiSlider-thumb': {
-        backgroundColor: '#fff',
-        border: '2px solid #001f3f',
-      },
-      '& .MuiSlider-valueLabel': {
-        backgroundColor: '#001f3f',
-        color: '#fff',
-        fontWeight: 'bold',
-      },
-      '& .MuiSlider-rail': {
-        opacity: 0.3,
-        backgroundColor: '#001f3f',
-      },
-      '& .MuiSlider-track': {
-        background: 'linear-gradient(90deg, #01b4e4 0%, #90cea1 100%)',
-      },
-      '& .MuiSlider-mark': {
-        backgroundColor: '#001f3f',
-      },
-    }}
-  />
-</FormControl>
+        {/* Minimum Rating Slider */}
+        <FormControl sx={{ ...formControl, p: 1 }}>
+          {/* Slider label styled box */}
+          <Typography id="vote-slider" gutterBottom
+            sx={{
+              color: '#001f3f',
+              fontWeight: '900',
+              mb: 1,
+              backgroundColor: '#ffffff',
+              borderRadius: 1,
+              px: 1,
+              py: 0.5,
+              display: 'inline-block',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+              fontSize: '1.1rem',
+            }}
+          >
+            ⭐ Minimum Rating: {props.voteFilter}
+          </Typography>
+
+          {/* Rating range slider 0–10 */}
+          <Slider
+            // https://mui.com/material-ui/react-slider/
+            // https://mui.com/material-ui/customization/how-to-customize/
+            value={props.voteFilter || 0}
+            onChange={(e, newValue) => props.onUserInput("vote", newValue)}
+            valueLabelDisplay="auto"
+            step={0.5}
+            marks
+            min={0}
+            max={10}
+            sx={{
+              color: '#a02adb',
+              '& .MuiSlider-thumb': {
+                backgroundColor: '#fff',
+                border: '2px solid #001f3f',
+              },
+              '& .MuiSlider-valueLabel': {
+                backgroundColor: '#001f3f',
+                color: '#fff',
+                fontWeight: 'bold',
+              },
+              '& .MuiSlider-rail': {
+                opacity: 0.3,
+                backgroundColor: '#001f3f',
+              },
+              '& .MuiSlider-track': {
+                background: 'linear-gradient(90deg, #01b4e4 0%, #90cea1 100%)',
+              },
+              '& .MuiSlider-mark': {
+                backgroundColor: '#001f3f',
+              },
+            }}
+          />
+        </FormControl>
       </CardContent>
     </Card>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Route, Navigate, Routes} from "react-router";
+import { BrowserRouter, Route, Navigate, Routes } from "react-router";
 import HomePage from "./pages/homePage";
 import MoviePage from "./pages/movieDetailsPage";
 import FavoriteMoviesPage from "./pages/favoriteMoviesPage";
@@ -17,11 +17,12 @@ import TopRatedMoviesPage from "./pages/topRatedMoviesPage";
 import NowPlayingMoviesPage from "./pages/nowPlayingMoviesPage";
 import ActorDetailsPage from "./pages/actorDetailsPage";
 
+// Configure react-query client with caching and refetching defaults
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 360000,
-      refetchInterval: 360000, 
+      refetchInterval: 360000,
       refetchOnWindowFocus: false
     },
   },
@@ -30,29 +31,46 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
+      {/* BrowserRouter wraps the app for routing */}
       <BrowserRouter>
+        {/* SiteHeader is always visible */}
         <SiteHeader />
+        {/* Provide global movie context (favorites, reviews, must watch) */}
         <MoviesContextProvider>
+          {/* Define application routes */}
           <Routes>
+            {/* Favorite movies page */}
             <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
-            <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
+            {/* Movie review page */}
+            <Route path="/reviews/:id" element={<MovieReviewPage />} />
+            {/* Movie details page */}
             <Route path="/movies/:id" element={<MoviePage />} />
+            {/* Home / Discover page */}
             <Route path="/" element={<HomePage />} />
-            <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
+            {/* Add a new movie review */}
+            <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+            {/* Upcoming movies */}
             <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+            {/* Must Watch movies */}
             <Route path="/movies/mustwatch" element={<MustWatchMoviesPage />} />
+            {/* Popular movies */}
             <Route path="/movies/popular" element={<PopularMoviesPage />} />
+            {/* Top Rated movies */}
             <Route path="/movies/top-rated" element={<TopRatedMoviesPage />} />
+            {/* Now Playing movies */}
             <Route path="/movies/now-playing" element={<NowPlayingMoviesPage />} />
+            {/* Actor details page */}
             <Route path="/actors/:actorId" element={<ActorDetailsPage />} />
-            <Route path="*" element={ <Navigate to="/" /> } />
+            {/* Catch-all: redirect to home */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </MoviesContextProvider>
       </BrowserRouter>
+      {/* Catch-all: redirect to home */}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 };
-
-const rootElement = createRoot( document.getElementById("root") )
+// Render the App to the DOM
+const rootElement = createRoot(document.getElementById("root"))
 rootElement.render(<App />);

@@ -9,41 +9,46 @@ import { useNavigate } from "react-router";
 
 const MovieHeader = (props) => {
   const movie = props.movie;
+  // React Router navigation instance
   const navigate = useNavigate();
 
   return (
-    <Paper 
-        component="div" 
-        sx={{
-            display: "flex",
-            justifyContent: "space-around",
-            flexWrap: "wrap",
-            padding: 1.5,
-            margin: 0,
-        }}
-      >
+    <Paper
+      component="div"
+      sx={{
+        display: "flex",
+        justifyContent: "space-around",
+        flexWrap: "wrap",
+        padding: 1.5,
+        margin: 0,
+      }}
+    >
+      {/*Arrow Back*/}
       <IconButton aria-label="go back" onClick={() => navigate(-1)} >
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
-
+      {/* Movie Title and Homepage Link */}
       <Typography variant="h4" component="h3">
         {movie.title}
+        {/* Link to movie’s official homepage) */}
         <a href={movie.homepage}>
-          <HomeIcon  fontSize="large"
-      sx={{
-        color: "#032541", 
-        "&:hover": {
-          color: "#00bfff",
-          backgroundColor: "transparent",
-        },
-      }}
-    />
+          <HomeIcon fontSize="large"
+            sx={{
+              color: "#032541",
+              "&:hover": {
+                color: "#00bfff",
+                backgroundColor: "transparent",
+              },
+            }}
+          />
         </a>
         <br />
+        {/* Movie tagline text */}
         <span sx={{ fontSize: "1.5rem" }}>{`   "${movie.tagline}"`} </span>
       </Typography>
 
-      <IconButton aria-label="go forward" onClick={() => navigate(+1) } >
+      {/* Arrow Forward*/}
+      <IconButton aria-label="go forward" onClick={() => navigate(+1)} >
         <ArrowForwardIcon color="primary" fontSize="large" />
       </IconButton>
     </Paper>

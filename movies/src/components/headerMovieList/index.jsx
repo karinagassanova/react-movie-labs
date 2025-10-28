@@ -6,21 +6,21 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router";
 
-const Header = (props ) => {
+const Header = (props) => {
   const title = props.title
   const navigate = useNavigate();
 
   return (
-    <Paper 
-      component="div" 
+    <Paper
+      component="div"
       sx={{
         display: "flex",
         justifyContent: "space-around",
         flexWrap: "wrap",
         marginBottom: 1.5,
       }}
-      >
-           <IconButton aria-label="go back" onClick={() => navigate(-1)}>
+    >
+      <IconButton aria-label="go back" onClick={() => navigate(-1)}>
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
       <Typography variant="h4" component="h3">

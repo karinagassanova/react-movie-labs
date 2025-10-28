@@ -17,16 +17,20 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
+// Spacer to push content below the fixed AppBar
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader = () => {
+  // Manage drawer and mobile menu state
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  // Detect screen width for responsive UI
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  // Navigation helper
   const navigate = useNavigate();
-
+  // Open/close favorites drawer
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === 'keydown' &&
@@ -37,6 +41,7 @@ const SiteHeader = () => {
     setDrawerOpen(open);
   };
 
+  // Drawer links for quick access to lists
   const drawerList = (
     <List sx={{ width: 250 }}>
       <ListItem
@@ -44,15 +49,15 @@ const SiteHeader = () => {
         onClick={() => { navigate("/movies/favorites"); setDrawerOpen(false); }}
         sx={{
           "&:hover": {
-            backgroundColor: "#032541", 
-            color: "#00bfff", 
-            cursor: "pointer",           
+            backgroundColor: "#032541",
+            color: "#00bfff",
+            cursor: "pointer",
           },
         }}
       >
         <ListItemText primary="Favorites" />
       </ListItem>
-  
+
       <ListItem
         button
         onClick={() => { navigate("/movies/mustwatch"); setDrawerOpen(false); }}
@@ -60,7 +65,7 @@ const SiteHeader = () => {
           "&:hover": {
             backgroundColor: "#032541",
             color: "#00bfff",
-            cursor: "pointer",  
+            cursor: "pointer",
           },
         }}
       >
@@ -68,7 +73,8 @@ const SiteHeader = () => {
       </ListItem>
     </List>
   );
-  
+
+  // Main menu navigation structure
   const menuOptions = [
     { label: "Home", path: "/" },
     { label: "Upcoming", path: "/movies/upcoming" },
@@ -78,6 +84,7 @@ const SiteHeader = () => {
   ];
 
   const handleMenuSelect = (pageURL) => {
+    // Close menu popup
     setAnchorEl(null);
     navigate(pageURL);
   };
@@ -88,19 +95,21 @@ const SiteHeader = () => {
 
   return (
     <>
+      {/* Main top navigation bar */}
       <AppBar
         position="fixed"
         sx={{
           background: '#032541',
           boxShadow: '0px 2px 8px rgba(0,0,0,0.2)',
         }}>
-      <Toolbar sx={{ display: "flex", justifyContent: "flex-start" }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "flex-start" }}>
+          {/* TMDB logo navigates home */}
           <img
             src={tmdbLogo}
             alt="TMDB Logo"
             style={{ height: 45, width: 180, cursor: 'pointer' }}
             onClick={() => navigate("/")} />
-            
+
           {isMobile ? (
             <>
 
@@ -113,7 +122,7 @@ const SiteHeader = () => {
                 <MenuIcon />
               </IconButton>
 
-              
+              {/* Mobile pop-out menu */}
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -128,7 +137,7 @@ const SiteHeader = () => {
                 }}
                 open={open}
                 onClose={() => setAnchorEl(null)}>
-                  
+
                 {menuOptions.map((opt) => (
 
                   <MenuItem
@@ -141,61 +150,64 @@ const SiteHeader = () => {
             </>
           ) : (
             <>
-          
-  <div style={{ display: "flex", gap: "10px" }}>
-              {menuOptions.map((opt) => (
-                <Button
-                  key={opt.label}
-                  color="inherit"
-                  sx={{
-                    fontWeight: '400',
-                    fontSize: '1rem', 
-                    letterSpacing: '0.5px', 
-                    textTransform: 'none', 
-                    '&:hover': {
-                      backgroundColor: 'rgba(255,255,255,0.2)',
-                      borderRadius: 1
-                    },
-                    mx: 1
-                  }}
-                  onClick={() => handleMenuSelect(opt.path)}
-                >
-                  {opt.label}
-                </Button>
-              ))}
+              {/* Desktop navigation buttons */}
+              <div style={{ display: "flex", gap: "10px" }}>
+                {menuOptions.map((opt) => (
+                  <Button
+                    key={opt.label}
+                    color="inherit"
+                    sx={{
+                      fontWeight: '400',
+                      fontSize: '1rem',
+                      letterSpacing: '0.5px',
+                      textTransform: 'none',
+                      '&:hover': {
+                        backgroundColor: 'rgba(255,255,255,0.2)',
+                        borderRadius: 1
+                      },
+                      mx: 1
+                    }}
+                    onClick={() => handleMenuSelect(opt.path)}
+                  >
+                    {opt.label}
+                  </Button>
+                ))}
               </div>
             </>
           )}
-
-        <div style={{ flexGrow: 1 }} />
-        <IconButton aria-label="open drawer" onClick={toggleDrawer(true)} 
-    sx={{
-    color: "white",
-    ml: 2,
-    "&:hover": {
-      backgroundColor: "#032541", 
-      color: "#00bfff", 
-    },
-  }}
->
-  <FavoriteIcon />
-</IconButton>
-</Toolbar>
+          {/* Push favorites icon to far right */}
+          <div style={{ flexGrow: 1 }} />
+          {/* Open favorites/must watch drawer */}
+          <IconButton aria-label="open drawer" onClick={toggleDrawer(true)}
+            sx={{
+              color: "white",
+              ml: 2,
+              "&:hover": {
+                backgroundColor: "#032541",
+                color: "#00bfff",
+              },
+            }}
+          >
+            <FavoriteIcon />
+          </IconButton>
+        </Toolbar>
+        {/* Sliding drawer for favorites & must-watch navigation */}
         <Drawer
-  anchor="right"
-  open={drawerOpen}
-  onClose={toggleDrawer(false)}
-  PaperProps={{
-    sx: {
-      backgroundColor: "#032541",
-      color: "white",
-    },
-  }}
->
-  {drawerList}
-</Drawer>
+          anchor="right"
+          open={drawerOpen}
+          onClose={toggleDrawer(false)}
+          PaperProps={{
+            sx: {
+              backgroundColor: "#032541",
+              color: "white",
+            },
+          }}
+        >
+          {drawerList}
+        </Drawer>
 
       </AppBar>
+      {/* Pushes page content below fixed app bar */}
       <Offset />
     </>
   );

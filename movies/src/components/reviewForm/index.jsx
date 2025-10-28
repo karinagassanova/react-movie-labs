@@ -11,9 +11,9 @@ import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router";
 
 const handleSnackClose = (event) => {
-    setOpen(false);
-    navigate("/movies/favorites");
-  };
+  setOpen(false);
+  navigate("/movies/favorites");
+};
 
 const ratings = [
   {
@@ -66,11 +66,11 @@ const styles = {
 };
 
 const ReviewForm = ({ movie }) => {
-    const [open, setOpen] = useState(false);   
-    const navigate = useNavigate();           
-    const [rating, setRating] = useState(3);
-    const context = useContext(MoviesContext);
-  
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const [rating, setRating] = useState(3);
+  const context = useContext(MoviesContext);
+
 
   const defaultValues = {
     author: "",
@@ -78,7 +78,7 @@ const ReviewForm = ({ movie }) => {
     agree: false,
     rating: "3",
   };
-  
+
   const {
     control,
     formState: { errors },
@@ -205,11 +205,11 @@ const ReviewForm = ({ movie }) => {
             variant="contained"
             color="primary"
             sx={{
-              backgroundColor: "#032541", 
+              backgroundColor: "#032541",
               color: "#fff",
               "&:hover": {
-                backgroundColor: "#032541", 
-                color: "#00bfff",          
+                backgroundColor: "#032541",
+                color: "#00bfff",
               },
             }}
           >

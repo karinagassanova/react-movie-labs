@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 
+// Create context for global movie-related state
 export const MoviesContext = React.createContext(null);
 
 const MoviesContextProvider = (props) => {
-  const [favorites, setFavorites] = useState( [] )
-  const [myReviews, setMyReviews] = useState( {} ) 
+  // State for favorite movies (array of movie IDs)
+  const [favorites, setFavorites] = useState([])
+  // State for user reviews (object: { movieId: review })
+  const [myReviews, setMyReviews] = useState({})
+  // State for "Must Watch" movies (array of movie IDs)
   const [mustWatch, setMustWatch] = useState([]);
 
+  // Add a movie to the Must Watch list if not already included
   const addToMustWatch = (movie) => {
     if (!mustWatch.includes(movie.id)) {
       const newMustWatch = [...mustWatch, movie.id];
@@ -14,36 +19,39 @@ const MoviesContextProvider = (props) => {
       console.log("Must Watch list:", newMustWatch); // confirm
     }
   };
-  
+
+  // Add a movie to the Favorites list if not already included
   const addToFavorites = (movie) => {
     let newFavorites = [];
-    if (!favorites.includes(movie.id)){
+    if (!favorites.includes(movie.id)) {
       newFavorites = [...favorites, movie.id];
     }
-    else{
+    else {
       newFavorites = [...favorites];
     }
     setFavorites(newFavorites)
   };
 
+  // Add or update a review for a movie
   const addReview = (movie, review) => {
-    setMyReviews( {...myReviews, [movie.id]: review } )
+    setMyReviews({ ...myReviews, [movie.id]: review })
   };
   console.log(myReviews);
 
-  
-  // We will use this function in the next step
+
+  // Remove a movie from the Favorites list
   const removeFromFavorites = (movie) => {
-    setFavorites( favorites.filter(
+    setFavorites(favorites.filter(
       (mId) => mId !== movie.id
-    ) )
+    ))
   };
 
+  // Remove a movie from the Must Watch list
   const removeFromMustWatch = (movie) => {
     setMustWatch(mustWatch.filter((mId) => mId !== movie.id));
   };
-  
 
+  // Provide context values and functions to children components
   return (
     <MoviesContext.Provider
       value={{
@@ -52,7 +60,7 @@ const MoviesContextProvider = (props) => {
         removeFromFavorites,
         addReview,
         mustWatch,
-        addToMustWatch, 
+        addToMustWatch,
         removeFromMustWatch,
       }}
     >
